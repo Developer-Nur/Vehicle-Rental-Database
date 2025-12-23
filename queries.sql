@@ -10,7 +10,6 @@ create table users(
 
 
 -- Vehicle 
-
 create table vehicles(
   vehicle_id serial primary key,
   name varchar(50) not null,
@@ -22,6 +21,20 @@ create table vehicles(
 );
 
 
+-- Bookings 
+create table bookings(
+  booking_id serial primary key,
+  user_id int references users(user_id),
+  vehicle_id int references vehicles(vehicle_id),
+  start_date date,
+  end_date date,
+  booking_status varchar(50),
+  total_cost int
+);
+
+
+
+
 select * from users;
 select * from vehicles;
-
+select * from bookings;
