@@ -1,37 +1,34 @@
 -- users table
-create table users(
-  user_id serial primary key,
-  name varchar(20) not null,
-  email varchar(50) unique not null,
-  password text not null,
+CREATE TABLE users (
+  user_id serial PRIMARY KEY,
+  name varchar(20) NOT NULL,
+  email varchar(50) UNIQUE NOT NULL,
+  password text NOT NULL,
   phone int,
-  role varchar(20) not null
+  role varchar(20) NOT NULL
 );
 
-
--- Vehicle table
-create table vehicles(
-  vehicle_id serial primary key,
-  name varchar(50) not null,
-  type varchar(50) not null,
-  registration_number varchar(50) unique not null,
+-- vehicle table
+CREATE TABLE vehicles (
+  vehicle_id serial PRIMARY KEY,
+  name varchar(50) NOT NULL,
+  type varchar(50) NOT NULL,
+  registration_number varchar(50) UNIQUE NOT NULL,
   model varchar(30),
-  price_per_day int not null,
-  available_status varchar(30) default 'available'
+  price_per_day int NOT NULL,
+  available_status varchar(30) DEFAULT 'available'
 );
-
 
 -- bookings table
-create table bookings(
-  booking_id serial primary key,
-  user_id int references users(user_id),
-  vehicle_id int references vehicles(vehicle_id),
+CREATE TABLE bookings (
+  booking_id serial PRIMARY KEY,
+  user_id int REFERENCES users (user_id),
+  vehicle_id int REFERENCES vehicles (vehicle_id),
   start_date date,
   end_date date,
   booking_status varchar(50),
   total_cost int
 );
-
 
 -- Retrieve booking information along with Customer name and Vehicle name.
 select
@@ -46,7 +43,6 @@ from
   inner join users as u on u.user_id = b.user_id
   inner join vehicles as v on v.vehicle_id = b.vehicle_id
   order by b.booking_id;
-
 
 -- Find all vehicles that have never been booked.
 SELECT
@@ -70,3 +66,12 @@ WHERE
   )
 ORDER BY
   vehicle_id;
+
+-- Retrieve all available vehicles of a specific type.
+SELECT
+  *
+FROM
+  vehicles
+WHERE
+  available_status = 'available'
+  AND type = 'car';
