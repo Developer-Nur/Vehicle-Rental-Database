@@ -34,7 +34,6 @@ create table bookings(
 
 
 -- Retrieve booking information along with Customer name and Vehicle name.
-
 select
   b.booking_id,
   u.name as customer_name,
@@ -47,3 +46,27 @@ from
   inner join users as u on u.user_id = b.user_id
   inner join vehicles as v on v.vehicle_id = b.vehicle_id
   order by b.booking_id;
+
+
+-- Find all vehicles that have never been booked.
+SELECT
+  v.vehicle_id,
+  v.name,
+  v.type,
+  v.model,
+  v.registration_number,
+  v.price_per_day AS rental_price,
+  v.available_status AS status
+FROM
+  vehicles AS v
+WHERE
+  NOT EXISTS (
+    SELECT
+      b.vehicle_id
+    FROM
+      bookings AS b
+    WHERE
+      b.vehicle_id = v.vehicle_id
+  )
+ORDER BY
+  vehicle_id;
